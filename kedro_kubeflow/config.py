@@ -15,6 +15,12 @@ DEFAULT_CONFIG_TEMPLATE = """
 # Base url of the Kubeflow Pipelines, should include the schema (http/https)
 host: {url}
 
+# Dex Email to authenticate with kubeflow
+# dexEmail: <replace with email>
+
+# Dex password to authenticate with kubeflow
+# dexPassword: <replace with password>
+
 # Configuration used to run the pipeline
 run_config:
 
@@ -24,6 +30,8 @@ run_config:
   # Pull policy to be used for the steps. Use Always if you push the images
   # on the same tag, or Never if you use only local images
   image_pull_policy: IfNotPresent
+
+  image_pull_secrets: analytics-registry-cred
 
   # Name of the kubeflow experiment to be created
   experiment_name: {project}
@@ -314,6 +322,7 @@ class RunConfig(BaseModel):
 
     image: str
     image_pull_policy: str = "IfNotPresent"
+    image_pull_secrets: str
     root: Optional[str]
     experiment_name: str
     run_name: str
@@ -334,7 +343,11 @@ class RunConfig(BaseModel):
 
 class PluginConfig(BaseModel):
     host: str
+    dexEmail: str
+    dexPassword: str
+
     run_config: RunConfig
+
 
     @staticmethod
     def sample_config(**kwargs):

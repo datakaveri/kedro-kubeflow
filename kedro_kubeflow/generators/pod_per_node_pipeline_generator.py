@@ -52,6 +52,9 @@ class PodPerNodePipelineGenerator(object):
             dsl.get_pipeline_conf().set_ttl_seconds_after_finished(
                 self.run_config.ttl
             )
+
+            dsl.get_pipeline_conf().set_image_pull_secrets([{"name": self.run_config.image_pull_secrets}])
+
             node_dependencies = pipelines[pipeline].node_dependencies
             with create_pipeline_exit_handler(
                 pipeline,

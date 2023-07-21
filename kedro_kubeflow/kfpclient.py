@@ -29,6 +29,8 @@ class KubeflowClient(object):
         if token is not None:
             client_params = {"existing_token": token}
         dex_authservice_session = AuthHandler().obtain_dex_authservice_session(
+            username=config.dexEmail,
+            password=config.dexPassword,
             kfp_api=config.host,
         )
         if dex_authservice_session is not None:
